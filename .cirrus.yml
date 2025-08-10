@@ -4,7 +4,7 @@ task:
 
   container:
     image: ubuntu:22.04
-    cpu: 8
+    cpu: 16
     memory: 32G
 
   env:
@@ -32,7 +32,7 @@ task:
     - git clone -b lineage-22.1 https://github.com/shashi64/android_kernel_xiaomi_vince.git kernel/xiaomi/vince
     - git clone -b lineage-22.1 https://github.com/LineageOS/android_hardware_xiaomi.git hardware/xiaomi
     - repo sync -j8
-    - source build/envsetup.sh
+    - . build/envsetup.sh
     - lunch lineage_${DEVICE}-ap4a-userdebug
     - mka bacon
 
