@@ -26,7 +26,7 @@ task:
     - git config --global user.name "Cirrus CI"
     - git config --global user.email "ci@example.com"
     - mkdir -p ~/android && cd ~/android
-    - repo init -u https://github.com/LineageOS/android.git -b lineage-22.1 --git-lfs
+    - repo init -u https://github.com/LineageOS/android.git -b lineage-22.1
     - git clone -b lineage-22.1 https://github.com/shashi64/android_device_xiaomi_vince.git device/xiaomi/vince
     - git clone -b lineage-22.1 https://github.com/shashi64/android_vendor_xiaomi_vince.git vendor/xiaomi/vince
     - git clone -b lineage-22.1 https://github.com/shashi64/android_kernel_xiaomi_vince.git kernel/xiaomi/vince
