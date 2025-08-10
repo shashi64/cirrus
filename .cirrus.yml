@@ -4,7 +4,7 @@ task:
 
   container:
     image: ubuntu:22.04
-    cpu: 10
+    cpu: 8
     memory: 32G
 
   env:
