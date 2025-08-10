@@ -31,7 +31,7 @@ task:
     - git clone -b lineage-22.1 https://github.com/shashi64/android_vendor_xiaomi_vince.git vendor/xiaomi/vince
     - git clone -b lineage-22.1 https://github.com/shashi64/android_kernel_xiaomi_vince.git kernel/xiaomi/vince
     - git clone -b lineage-22.1 https://github.com/LineageOS/android_hardware_xiaomi.git hardware/xiaomi
-    - repo sync -c --no-clone-bundle --no-tags --force-sync -j$(nproc)
+    - repo sync -j8
 
   lunch_script:
     - cd ~/android
