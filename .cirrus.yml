@@ -1,0 +1,48 @@
+task:
+  name: LineageOS 22.1 Build (vince)
+  timeout_in: 480m  # 8 hours
+
+  container:
+    image: ubuntu:22.04
+    cpu: 8
+    memory: 32G
+
+  env:
+    DEBIAN_FRONTEND: noninteractive
+    USE_CCACHE: "1"
+    CCACHE_DIR: /cirrus-ci-build/.ccache
+    CCACHE_COMPRESS: "1"
+    CCACHE_MAXSIZE: 20G
+    DEVICE: vince
+
+  install_script:
+    - apt-get update
+    - apt-get install -y bc bison build-essential curl flex g++-multilib gcc-multilib git \
+      gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev \
+      liblz4-tool libncurses5-dev libsdl1.2-dev libssl-dev libxml2 libxml2-utils \
+      lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev \
+      openjdk-11-jdk python3 python-is-python3 git-lfs ccache
+
+  sync_script:
+    - git config --global user.name "Cirrus CI"
+    - git config --global user.email "ci@example.com"
+    - mkdir -p ~/android && cd ~/android
+    - repo init -u https://github.com/LineageOS/android.git -b lineage-22.1 --git-lfs
+    - git clone -b lineage-22.1 https://github.com/shashi64/android_device_xiaomi_vince.git device/xiaomi/vince
+    - git clone -b lineage-22.1 https://github.com/shashi64/android_vendor_xiaomi_vince.git vendor/xiaomi/vince
+    - git clone -b lineage-22.1 https://github.com/shashi64/android_kernel_xiaomi_vince.git kernel/xiaomi/vince
+    - git clone -b lineage-22.1 https://github.com/LineageOS/android_hardware_xiaomi.git hardware/xiaomi
+    - repo sync -c --no-clone-bundle --no-tags --force-sync -j$(nproc)
+
+  lunch_script:
+    - cd ~/android
+    - source build/envsetup.sh
+    - lunch lineage_${DEVICE}-ap4a-userdebug
+
+  build_script:
+    - cd ~/android
+    - mka bacon -j$(nproc)
+
+  artifacts:
+    path: ~/android/out/target/product/${DEVICE}/*.zip
+    type: file
